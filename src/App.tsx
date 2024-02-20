@@ -1,11 +1,10 @@
+import HomePage from "./features/Home/HomePage"
 
 function App() {
 
   return (
     <>
-      <div>
-        Такие дела
-      </div>
+        <HomePage />
     </>
   )
 }
