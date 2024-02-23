@@ -1,12 +1,11 @@
-import HomePage from "./features/Home/HomePage"
+import HomePage from './features/Home/HomePage';
 
 function App() {
-
   return (
     <>
-        <HomePage />
+      <HomePage />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
