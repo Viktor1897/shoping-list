@@ -1,9 +1,9 @@
-import HomePage from './features/Home/HomePage';
+import { SignInPage } from './features/SignIn/SignInPage';
 
 function App() {
   return (
     <>
-      <HomePage />
+      <SignInPage />
     </>
   );
 }
