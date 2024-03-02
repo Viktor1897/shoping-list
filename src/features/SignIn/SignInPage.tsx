@@ -1,4 +1,3 @@
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {
   Avatar,
   Box,
@@ -6,35 +5,31 @@ import {
   Checkbox,
   FormControlLabel,
   Grid,
+  Icon,
   Link,
   TextField,
   Typography,
 } from '@mui/material';
-
-function Copyright() {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      sx={{ mt: 8, mb: 4 }}
-    >
-      {'Copyright © '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import { useAuth } from '../../app/hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 export function SignInPage() {
+  const { login } = useAuth();
+
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    login();
   };
+
+  useEffect(() => {
+    if (user) {
+      navigate(`/`);
+    }
+  }, [navigate, user]);
 
   return (
     <>
@@ -47,7 +42,7 @@ export function SignInPage() {
         }}
       >
         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-          <LockOutlinedIcon />
+          <Icon>lock</Icon>
         </Avatar>
         <Typography component="h1" variant="h5">
           Sign in
@@ -101,5 +96,20 @@ export function SignInPage() {
       </Box>
       <Copyright />
     </>
+  );
+}
+
+function Copyright() {
+  return (
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      sx={{ mt: 8, mb: 4 }}
+    >
+      {'Copyright © '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
   );
 }
