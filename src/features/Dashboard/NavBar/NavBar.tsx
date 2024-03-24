@@ -9,6 +9,8 @@ import {
   Toolbar,
   Typography,
 } from '@mui/material';
+import { signOut } from 'firebase/auth';
+import { auth } from '../../../firebase';
 
 export const NavBar = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -20,6 +22,14 @@ export const NavBar = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleLogout = async () => {
+    await signOut(auth).catch((error) => {
+      //TODO: handle error in a better way
+      console.log('Error signing out:', error.message);
+    });
+  };
+
   return (
     <AppBar position="fixed" sx={{ zIndex: 1300 }}>
       <Toolbar>
@@ -38,7 +48,6 @@ export const NavBar = () => {
         <Box>
           <IconButton
             size="large"
-            aria-label="account of current user"
             aria-controls="menu-appbar"
             aria-haspopup="true"
             onClick={handleMenu}
@@ -63,6 +72,7 @@ export const NavBar = () => {
           >
             <MenuItem onClick={handleClose}>Profile</MenuItem>
             <MenuItem onClick={handleClose}>My account</MenuItem>
+            <MenuItem onClick={handleLogout}>Logout</MenuItem>
           </Menu>
         </Box>
       </Toolbar>

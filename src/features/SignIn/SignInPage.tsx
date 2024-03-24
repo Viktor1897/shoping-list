@@ -2,34 +2,41 @@ import {
   Avatar,
   Box,
   Button,
-  Checkbox,
-  FormControlLabel,
-  Grid,
   Icon,
-  Link,
   TextField,
   Typography,
 } from '@mui/material';
-import { useAuth } from '../../app/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import { DASHBOARD } from '../../app/router/routes/routes';
+import { auth } from '../../firebase';
+import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
 
 export function SignInPage() {
-  const { login } = useAuth();
-
-  const { user } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    login();
+    await signInWithEmailAndPassword(
+      auth,
+      event.currentTarget.email.value,
+      event.currentTarget.password.value,
+    ).catch((error) => {
+      //TODO handle error in a better ways
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorCode, errorMessage);
+    });
   };
 
   useEffect(() => {
-    if (user) {
-      navigate(`/`);
-    }
-  }, [navigate, user]);
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        navigate(DASHBOARD);
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
@@ -68,10 +75,11 @@ export function SignInPage() {
             id="password"
             autoComplete="current-password"
           />
-          <FormControlLabel
+          {/* TODO Implement "Remember me" functionality */}
+          {/* <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
-          />
+          /> */}
           <Button
             type="submit"
             fullWidth
@@ -80,7 +88,8 @@ export function SignInPage() {
           >
             Sign In
           </Button>
-          <Grid container>
+          {/* TODO Implement "Forgot password" and "Sign Up" functionality */}
+          {/* <Grid container>
             <Grid item xs>
               <Link href="#" variant="body2">
                 Forgot password?
@@ -91,7 +100,7 @@ export function SignInPage() {
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
-          </Grid>
+          </Grid> */}
         </Box>
       </Box>
       <Copyright />
