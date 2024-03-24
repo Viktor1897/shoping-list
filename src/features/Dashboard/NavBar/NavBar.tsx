@@ -33,7 +33,7 @@ export const NavBar = () => {
           <Icon>menu</Icon>
         </IconButton>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          Shopping List
+          Household
         </Typography>
         <Box>
           <IconButton
