@@ -2,25 +2,30 @@ import {
   Avatar,
   Box,
   Button,
+  Container,
+  Grid,
   Icon,
   TextField,
   Typography,
 } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import { DASHBOARD } from '../../app/router/routes/routes';
+import { DASHBOARD, SIGN_UP } from '../../app/router/routes/routes';
 import { auth } from '../../firebase';
 import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
+import { Copyright } from '../../components/Copyright/Copyright';
 
 export function SignInPage() {
   const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const data = new FormData(event.currentTarget);
+
     await signInWithEmailAndPassword(
       auth,
-      event.currentTarget.email.value,
-      event.currentTarget.password.value,
+      data.get('email') as string,
+      data.get('password') as string,
     ).catch((error) => {
       //TODO handle error in a better ways
       const errorCode = error.code;
@@ -39,7 +44,7 @@ export function SignInPage() {
   }, []);
 
   return (
-    <>
+    <Container component="main" maxWidth="xs">
       <Box
         sx={{
           marginTop: 8,
@@ -54,7 +59,7 @@ export function SignInPage() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
           <TextField
             margin="normal"
             required
@@ -88,37 +93,20 @@ export function SignInPage() {
           >
             Sign In
           </Button>
-          {/* TODO Implement "Forgot password" and "Sign Up" functionality */}
-          {/* <Grid container>
-            <Grid item xs>
+          {/* TODO Implement "Forgot password" functionality */}
+          <Grid container>
+            {/* <Grid item xs>
               <Link href="#" variant="body2">
                 Forgot password?
               </Link>
-            </Grid>
+            </Grid> */}
             <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
+              <Link to={SIGN_UP}>Don't have an account? Sign Up</Link>
             </Grid>
-          </Grid> */}
+          </Grid>
         </Box>
       </Box>
       <Copyright />
-    </>
-  );
-}
-
-function Copyright() {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      sx={{ mt: 8, mb: 4 }}
-    >
-      {'Copyright © '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
+    </Container>
   );
 }

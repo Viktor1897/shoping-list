@@ -43,9 +43,11 @@ export const NavBar = () => {
           <Icon>menu</Icon>
         </IconButton>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          Household
+          Shoping List
         </Typography>
-        <Box>
+        <Box display="flex" alignItems="center">
+          {/* //TODO: the user is not rendered on the screen in time */}
+          <Typography>{auth.currentUser?.displayName}</Typography>
           <IconButton
             size="large"
             aria-controls="menu-appbar"
@@ -53,6 +55,7 @@ export const NavBar = () => {
             onClick={handleMenu}
             color="inherit"
           >
+            {/* //TODO: render the user's avatar if available */}
             <Icon>account_circle</Icon>
           </IconButton>
           <Menu
