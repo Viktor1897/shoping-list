@@ -37,7 +37,7 @@ export const NavBar = () => {
           <Icon>menu</Icon>
         </IconButton>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          Shoping List
+          Shopping List
         </Typography>
         <Box display="flex" alignItems="center">
           <Typography>
