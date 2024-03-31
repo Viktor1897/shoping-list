@@ -4,11 +4,16 @@ import { SignInPage } from '../../../features/SignIn/SignInPage';
 import SignUpPage from '../../../features/SignUp/SignUpPage';
 import { Dashboard } from '../../../features/Dashboard/Dashboard';
 import { DASHBOARD, SIGN_IN, SIGN_UP } from './routes';
+import { ProtectedRoute } from './ProtectedRoute';
 
 export const router = createHashRouter([
   {
     path: DASHBOARD,
-    element: <Dashboard />,
+    element: (
+      <ProtectedRoute>
+        <Dashboard />
+      </ProtectedRoute>
+    ),
     errorElement: <ErrorPage />,
   },
   {

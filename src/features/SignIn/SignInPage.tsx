@@ -8,40 +8,23 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { Link, Navigate } from 'react-router-dom';
 import { DASHBOARD, SIGN_UP } from '../../app/router/routes/routes';
-import { auth } from '../../firebase';
-import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
 import { Copyright } from '../../components/Copyright/Copyright';
+import { useAuth } from '../../app/contexts/AuthContext';
 
 export function SignInPage() {
-  const navigate = useNavigate();
+  const { signIn, loggedIn } = useAuth();
+
+  if (loggedIn) {
+    return <Navigate to={DASHBOARD} />;
+  }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-
-    await signInWithEmailAndPassword(
-      auth,
-      data.get('email') as string,
-      data.get('password') as string,
-    ).catch((error) => {
-      //TODO handle error in a better ways
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log(errorCode, errorMessage);
-    });
+    signIn(data.get('email') as string, data.get('password') as string);
   };
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        navigate(DASHBOARD);
-      }
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <Container component="main" maxWidth="xs">

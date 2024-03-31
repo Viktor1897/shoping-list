@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import {
   AppBar,
+  Avatar,
   Box,
   Icon,
   IconButton,
@@ -9,11 +10,11 @@ import {
   Toolbar,
   Typography,
 } from '@mui/material';
-import { signOut } from 'firebase/auth';
-import { auth } from '../../../firebase';
+import { useAuth } from '../../../app/contexts/AuthContext';
 
 export const NavBar = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const { logout, currentUser } = useAuth();
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -21,13 +22,6 @@ export const NavBar = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
-  };
-
-  const handleLogout = async () => {
-    await signOut(auth).catch((error) => {
-      //TODO: handle error in a better way
-      console.log('Error signing out:', error.message);
-    });
   };
 
   return (
@@ -46,8 +40,11 @@ export const NavBar = () => {
           Shoping List
         </Typography>
         <Box display="flex" alignItems="center">
-          {/* //TODO: the user is not rendered on the screen in time */}
-          <Typography>{auth.currentUser?.displayName}</Typography>
+          <Typography>
+            {currentUser?.displayName
+              ? currentUser?.displayName
+              : currentUser?.email}
+          </Typography>
           <IconButton
             size="large"
             aria-controls="menu-appbar"
@@ -55,8 +52,12 @@ export const NavBar = () => {
             onClick={handleMenu}
             color="inherit"
           >
-            {/* //TODO: render the user's avatar if available */}
-            <Icon>account_circle</Icon>
+            {/* //TODO: test user's avatar render */}
+            {currentUser?.photoURL ? (
+              <Avatar src={currentUser?.photoURL} />
+            ) : (
+              <Icon>account_circle</Icon>
+            )}
           </IconButton>
           <Menu
             id="menu-appbar"
@@ -75,7 +76,7 @@ export const NavBar = () => {
           >
             <MenuItem onClick={handleClose}>Profile</MenuItem>
             <MenuItem onClick={handleClose}>My account</MenuItem>
-            <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            <MenuItem onClick={logout}>Logout</MenuItem>
           </Menu>
         </Box>
       </Toolbar>

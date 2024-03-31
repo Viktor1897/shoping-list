@@ -10,53 +10,29 @@ import {
   Typography,
 } from '@mui/material';
 import { Copyright } from '../../components/Copyright/Copyright';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { DASHBOARD, SIGN_IN } from '../../app/router/routes/routes';
-import {
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-  updateProfile,
-} from 'firebase/auth';
-import { auth } from '../../firebase';
-import { useEffect } from 'react';
+import { useAuth } from '../../app/contexts/AuthContext';
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
 export default function SignUpPage() {
-  const navigate = useNavigate();
+  const { signUp, loggedIn } = useAuth();
+
+  if (loggedIn) {
+    return <Navigate to={DASHBOARD} />;
+  }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-    createUserWithEmailAndPassword(
-      auth,
+    signUp(
       data.get('email') as string,
       data.get('password') as string,
-    )
-      .then((userCredential) =>
-        updateProfile(userCredential.user, {
-          displayName: `${data.get('firstName')} ${data.get('lastName')}`,
-        }),
-      )
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
-      });
+      data.get('firstName') as string,
+      data.get('lastName') as string,
+    );
   };
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        navigate(DASHBOARD);
-      }
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <Container component="main" maxWidth="xs">
