@@ -14,7 +14,7 @@ import {
   useMemo,
   useState,
 } from 'react';
-import { auth } from '../../firebase';
+import { auth } from '../firebase/firebase';
 
 type AuthContextType = {
   currentUser: User | null;
