@@ -36,7 +36,7 @@ const closedMixin = (theme: Theme): CSSObject => ({
     duration: theme.transitions.duration.leavingScreen,
   }),
   overflowX: 'hidden',
-  width: `calc(${theme.spacing(8)} + 1px)`,
+  width: `calc(${theme.spacing(7)} + 1px)`,
   [theme.breakpoints.up('sm')]: {
     width: `calc(${theme.spacing(9)} + 1px)`,
   },
@@ -69,7 +69,7 @@ export function AsideDrawer({ open }: { open: boolean }) {
         {shoppingLists.map(({ id, name, icon }) => (
           <ListItem key={id} disablePadding>
             <ListItemButton>
-              <ListItemIcon sx={{ px: 1 }}>
+              <ListItemIcon sx={{ px: { sm: 1 } }}>
                 <Icon>{icon}</Icon>
               </ListItemIcon>
               <ListItemText primary={name} />
