@@ -14,8 +14,6 @@ import { Link, Navigate } from 'react-router-dom';
 import { DASHBOARD, SIGN_IN } from '../../app/router/routes/routes';
 import { useAuth } from '../../app/contexts/AuthContext';
 
-// TODO remove, this demo shouldn't need to reset the theme.
-
 export default function SignUpPage() {
   const { signUp, loggedIn } = useAuth();
 

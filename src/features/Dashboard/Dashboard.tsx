@@ -1,28 +1,19 @@
-// import { useNavigate } from 'react-router-dom';
-// import { useEffect } from 'react';
 import { Box } from '@mui/material';
 import { NavBar } from './NavBar/NavBar';
 import { AsideDrawer } from './Drawer/Drawer';
-// import { SIGN_IN } from '../../app/router/routes/routes';
-// import { onAuthStateChanged } from 'firebase/auth';
-// import { auth } from '../../firebase';
+import { useState } from 'react';
 
 export function Dashboard() {
-  // const navigate = useNavigate();
+  const [openDrawer, setOpenDrawer] = useState(true);
 
-  // useEffect(() => {
-  //   onAuthStateChanged(auth, (user) => {
-  //     if (!user) {
-  //       navigate(SIGN_IN);
-  //     }
-  //   });
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+  const toggleDrawer = () => {
+    setOpenDrawer((openDrawer) => !openDrawer);
+  };
 
   return (
     <Box position="relative">
-      <NavBar />
-      <AsideDrawer />
+      <NavBar onMenuClick={toggleDrawer} />
+      <AsideDrawer open={openDrawer} />
     </Box>
   );
 }

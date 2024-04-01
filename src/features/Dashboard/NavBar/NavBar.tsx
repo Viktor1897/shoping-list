@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import { useAuth } from '../../../app/contexts/AuthContext';
 
-export const NavBar = () => {
+export const NavBar = ({ onMenuClick }: { onMenuClick: () => void }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { logout, currentUser } = useAuth();
 
@@ -33,6 +33,7 @@ export const NavBar = () => {
           color="inherit"
           aria-label="menu"
           sx={{ mr: 2 }}
+          onClick={onMenuClick}
         >
           <Icon>menu</Icon>
         </IconButton>
