@@ -11,15 +11,17 @@ import {
   Theme,
   CSSObject,
   useTheme,
+  IconButton,
 } from '@mui/material';
+import { useState } from 'react';
 
 const drawerWidth = 240;
 
-const shoppingLists = [
-  { id: '1', name: 'Food', icon: 'local_dining' },
-  { id: '2', name: 'Furniture etc.', icon: 'chair' },
-  { id: '3', name: 'Everything else', icon: 'shopping_cart' },
-];
+type DrawerListType = {
+  id: string;
+  name: string;
+  icon: string;
+};
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
@@ -42,8 +44,14 @@ const closedMixin = (theme: Theme): CSSObject => ({
   },
 });
 
-export function AsideDrawer({ open }: { open: boolean }) {
+export function AsideDrawer({ list = [] }: { list: DrawerListType[] }) {
   const theme = useTheme();
+  const [open, setOpen] = useState(true);
+
+  const toggleDrawer = () => {
+    setOpen((openDrawer) => !openDrawer);
+  };
+
   return (
     <Drawer
       open={open}
@@ -63,10 +71,26 @@ export function AsideDrawer({ open }: { open: boolean }) {
       }}
       variant="permanent"
     >
-      <Toolbar />
+      <Toolbar
+        disableGutters
+        sx={{
+          alignSelf: 'end',
+          pr: { sm: 1.5, xs: 0.5 },
+          paddingTop: '64px',
+        }}
+      >
+        <IconButton
+          size="large"
+          edge="start"
+          aria-label="menu"
+          onClick={toggleDrawer}
+        >
+          <Icon>{open ? 'chevron_left' : 'chevron_right'}</Icon>
+        </IconButton>
+      </Toolbar>
       <Divider />
       <List>
-        {shoppingLists.map(({ id, name, icon }) => (
+        {list.map(({ id, name, icon }) => (
           <ListItem key={id} disablePadding>
             <ListItemButton>
               <ListItemIcon sx={{ px: { sm: 1 } }}>

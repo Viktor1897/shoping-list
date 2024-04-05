@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import { useAuth } from '../../../app/contexts/AuthContext';
 
-export const NavBar = ({ onMenuClick }: { onMenuClick: () => void }) => {
+export const NavBar = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { logout, currentUser } = useAuth();
 
@@ -27,13 +27,14 @@ export const NavBar = ({ onMenuClick }: { onMenuClick: () => void }) => {
   return (
     <AppBar position="fixed" sx={{ zIndex: 1300 }}>
       <Toolbar>
+        {/* Do I need it? */}
         <IconButton
           size="large"
           edge="start"
           color="inherit"
           aria-label="menu"
           sx={{ mr: 2 }}
-          onClick={onMenuClick}
+          onClick={() => console.log('menu')}
         >
           <Icon>menu</Icon>
         </IconButton>
