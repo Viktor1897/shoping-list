@@ -9,9 +9,11 @@ import {
 import { LoadingButton as Button } from '@mui/lab';
 import usePutData from '../../app/firebase/usePutData';
 import { COLLECTIONS } from '../../app/firebase/consts';
+import { useRef } from 'react';
 
 export const NewShoppingList = () => {
   const { putData, isLoading } = usePutData();
+  const ref = useRef<HTMLFormElement>(null);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -20,11 +22,14 @@ export const NewShoppingList = () => {
       title: data.get('list'),
       icon: data.get('icon') || 'shopping_cart',
     };
-    putData(COLLECTIONS.shoppingLists, shoppingList);
+    putData(COLLECTIONS.shoppingLists, shoppingList).then(() =>
+      ref.current?.reset(),
+    );
   };
 
   return (
     <Box
+      ref={ref}
       component="form"
       onSubmit={handleSubmit}
       sx={{ mt: 1 }}
