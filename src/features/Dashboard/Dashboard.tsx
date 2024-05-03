@@ -1,19 +1,16 @@
 import { Box } from '@mui/material';
 import { NavBar } from './NavBar/NavBar';
-import { AsideDrawer } from './Drawer/Drawer';
-import { useState } from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
 
 export function Dashboard() {
-  const [openDrawer, setOpenDrawer] = useState(true);
-
-  const toggleDrawer = () => {
-    setOpenDrawer((openDrawer) => !openDrawer);
-  };
-
   return (
     <Box position="relative">
-      <NavBar onMenuClick={toggleDrawer} />
-      <AsideDrawer open={openDrawer} />
+      {/*redirect to shopping-lists until we don't have another pages*/}
+      <Navigate to="/shopping-lists" />
+      <NavBar />
+      <Box sx={{ pt: '64px' }}>
+        <Outlet />
+      </Box>
     </Box>
   );
 }

@@ -9,7 +9,7 @@ import {
   Typography,
 } from '@mui/material';
 import { Link, Navigate } from 'react-router-dom';
-import { DASHBOARD, SIGN_UP } from '../../app/router/routes/routes';
+import { SHOPPING_LISTS, SIGN_UP } from '../../app/router/routes/routes';
 import { Copyright } from '../../components/Copyright/Copyright';
 import { useAuth } from '../../app/contexts/AuthContext';
 
@@ -17,7 +17,7 @@ export function SignInPage() {
   const { signIn, loggedIn } = useAuth();
 
   if (loggedIn) {
-    return <Navigate to={DASHBOARD} />;
+    return <Navigate to={SHOPPING_LISTS} />;
   }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
