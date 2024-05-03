@@ -18,7 +18,6 @@ export const ShoppingLists = () => {
     COLLECTIONS.shoppingLists,
   );
 
-  console.log(shoppingLists);
   return (
     <Box display={'flex'}>
       <AsideDrawer

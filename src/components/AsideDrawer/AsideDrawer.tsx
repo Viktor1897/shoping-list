@@ -14,6 +14,7 @@ import {
   IconButton,
   alpha,
 } from '@mui/material';
+import { Timestamp } from 'firebase/firestore';
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
@@ -28,6 +29,7 @@ export type DrawerListType = {
   id: string;
   title: string;
   icon: string;
+  createdAt?: Timestamp;
 };
 
 export function AsideDrawer({
@@ -43,6 +45,14 @@ export function AsideDrawer({
   const toggleDrawer = () => {
     setOpen((openDrawer) => !openDrawer);
   };
+
+  // Сортировка элементов списка по полю createdAt
+  const sortedList = list.sort((a, b) => {
+    if (a.createdAt && b.createdAt) {
+      return a.createdAt.seconds - b.createdAt.seconds;
+    }
+    return 0;
+  });
 
   return (
     <Drawer
@@ -82,7 +92,7 @@ export function AsideDrawer({
       </Toolbar>
       <Divider />
       <List>
-        {list.map(({ id, title, icon }) => (
+        {sortedList.map(({ id, title, icon }) => (
           <ListItem
             key={id}
             disablePadding

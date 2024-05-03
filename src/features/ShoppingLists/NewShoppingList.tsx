@@ -22,7 +22,7 @@ export const NewShoppingList = () => {
       title: data.get('list'),
       icon: data.get('icon') || 'shopping_cart',
     };
-    putData(COLLECTIONS.shoppingLists, shoppingList).then(() =>
+    putData(COLLECTIONS.shoppingLists, shoppingList, true).then(() =>
       ref.current?.reset(),
     );
   };
