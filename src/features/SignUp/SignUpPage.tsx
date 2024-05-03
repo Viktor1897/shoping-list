@@ -11,14 +11,14 @@ import {
 } from '@mui/material';
 import { Copyright } from '../../components/Copyright/Copyright';
 import { Link, Navigate } from 'react-router-dom';
-import { DASHBOARD, SIGN_IN } from '../../app/router/routes/routes';
+import { SHOPPING_LISTS, SIGN_IN } from '../../app/router/routes/routes';
 import { useAuth } from '../../app/contexts/AuthContext';
 
 export default function SignUpPage() {
   const { signUp, loggedIn } = useAuth();
 
   if (loggedIn) {
-    return <Navigate to={DASHBOARD} />;
+    return <Navigate to={SHOPPING_LISTS} />;
   }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {

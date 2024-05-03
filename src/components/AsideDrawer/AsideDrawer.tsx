@@ -12,41 +12,33 @@ import {
   CSSObject,
   useTheme,
   IconButton,
+  alpha,
 } from '@mui/material';
 import { useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 
 const drawerWidth = 240;
 
-type DrawerListType = {
+type AsideDrawerProps = {
+  list: DrawerListType[];
+  additionalContent?: React.ReactNode;
+};
+
+export type DrawerListType = {
   id: string;
-  name: string;
+  title: string;
   icon: string;
 };
 
-const openedMixin = (theme: Theme): CSSObject => ({
-  width: drawerWidth,
-  transition: theme.transitions.create('width', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.enteringScreen,
-  }),
-  overflowX: 'hidden',
-});
-
-const closedMixin = (theme: Theme): CSSObject => ({
-  transition: theme.transitions.create('width', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  overflowX: 'hidden',
-  width: `calc(${theme.spacing(7)} + 1px)`,
-  [theme.breakpoints.up('sm')]: {
-    width: `calc(${theme.spacing(9)} + 1px)`,
-  },
-});
-
-export function AsideDrawer({ list = [] }: { list: DrawerListType[] }) {
+export function AsideDrawer({
+  list = [],
+  additionalContent,
+}: AsideDrawerProps) {
   const theme = useTheme();
   const [open, setOpen] = useState(true);
+
+  const { listId } = useParams();
+  const { palette } = useTheme();
 
   const toggleDrawer = () => {
     setOpen((openDrawer) => !openDrawer);
@@ -90,17 +82,51 @@ export function AsideDrawer({ list = [] }: { list: DrawerListType[] }) {
       </Toolbar>
       <Divider />
       <List>
-        {list.map(({ id, name, icon }) => (
-          <ListItem key={id} disablePadding>
-            <ListItemButton>
+        {list.map(({ id, title, icon }) => (
+          <ListItem
+            key={id}
+            disablePadding
+            sx={{
+              backgroundColor:
+                listId === id ? alpha(palette.secondary.light, 0.3) : '',
+            }}
+          >
+            <ListItemButton component={Link} to={`./${id}`}>
               <ListItemIcon sx={{ px: { sm: 1 } }}>
                 <Icon>{icon}</Icon>
               </ListItemIcon>
-              <ListItemText primary={name} />
+              <ListItemText primary={title} />
             </ListItemButton>
           </ListItem>
         ))}
       </List>
+      {additionalContent && (
+        <>
+          <Divider />
+          {additionalContent}
+        </>
+      )}
     </Drawer>
   );
 }
+
+const openedMixin = (theme: Theme): CSSObject => ({
+  width: drawerWidth,
+  transition: theme.transitions.create('width', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.enteringScreen,
+  }),
+  overflowX: 'hidden',
+});
+
+const closedMixin = (theme: Theme): CSSObject => ({
+  transition: theme.transitions.create('width', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  overflowX: 'hidden',
+  width: `calc(${theme.spacing(7)} + 1px)`,
+  [theme.breakpoints.up('sm')]: {
+    width: `calc(${theme.spacing(9)} + 1px)`,
+  },
+});

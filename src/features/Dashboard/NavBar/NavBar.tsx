@@ -27,7 +27,7 @@ export const NavBar = () => {
   return (
     <AppBar position="fixed" sx={{ zIndex: 1300 }}>
       <Toolbar>
-        {/* Do I need it? */}
+        {/* TODO: Do I need it? */}
         <IconButton
           size="large"
           edge="start"
